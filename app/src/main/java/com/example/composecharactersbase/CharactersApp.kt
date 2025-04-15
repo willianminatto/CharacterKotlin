@@ -40,11 +40,14 @@ import coil.compose.rememberAsyncImagePainter
 @Preview
 @Composable
 fun CharacterApp() {
+    // Função principal que inicia a tela do aplicativo.
+    // Aqui chamamos a tela que lista os personagens.
     CharacterListScreen()
 }
 
 @Composable
 fun CharacterListScreen() {
+    // Lista de personagens mockados (dados fictícios para teste).
     val characters = listOf(
         CharacterMock(
             name = "Rick Sanchez",
@@ -66,75 +69,89 @@ fun CharacterListScreen() {
         )
     )
 
+    // LazyColumn é uma lista otimizada para exibir grandes quantidades de dados.
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .fillMaxSize() // Preenche todo o espaço disponível.
+            .padding(16.dp), // Adiciona um espaçamento interno de 16dp.
+        verticalArrangement = Arrangement.spacedBy(12.dp) // Espaçamento entre os itens da lista.
     ) {
+        // Para cada personagem na lista, cria um item na LazyColumn.
         items(characters) { character ->
-            CharacterCard(character)
+            CharacterCard(character) // Exibe o cartão do personagem.
         }
     }
 }
 
 @Composable
 fun CharacterCard(character: CharacterMock) {
+    // Estado que controla se o personagem é favorito ou não.
     var isFavorite by remember { mutableStateOf(false) }
 
+    // Card é um componente que cria um contêiner com elevação e bordas arredondadas.
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(140.dp),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            .fillMaxWidth() // Preenche toda a largura disponível.
+            .height(140.dp), // Define a altura do cartão.
+        shape = RoundedCornerShape(16.dp), // Define bordas arredondadas.
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp) // Define a elevação do cartão.
     ) {
+        // Row organiza os elementos horizontalmente.
         Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize() // Preenche todo o espaço disponível no cartão.
+                .padding(12.dp), // Adiciona um espaçamento interno de 12dp.
+            verticalAlignment = Alignment.CenterVertically // Alinha os elementos verticalmente ao centro.
         ) {
+            // Exibe a imagem do personagem.
             Image(
-                painter = rememberAsyncImagePainter(model = character.imageUrl),
-                contentDescription = "Character image",
+                painter = rememberAsyncImagePainter(model = character.imageUrl), // Carrega a imagem da URL.
+                contentDescription = "Character image", // Descrição da imagem para acessibilidade.
                 modifier = Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .size(100.dp) // Define o tamanho da imagem.
+                    .clip(RoundedCornerShape(12.dp)) // Adiciona bordas arredondadas à imagem.
             )
 
+            // Espaçamento horizontal entre a imagem e o texto.
             Spacer(modifier = Modifier.width(16.dp))
 
+            // Coluna para organizar os textos verticalmente.
             Column(
                 modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center
+                    .weight(1f) // Faz com que a coluna ocupe o espaço restante.
+                    .fillMaxHeight(), // Preenche toda a altura disponível.
+                verticalArrangement = Arrangement.Center // Alinha os textos verticalmente ao centro.
             ) {
+                // Exibe o nome do personagem.
                 Text(text = character.name, style = MaterialTheme.typography.titleMedium)
+                // Exibe o status do personagem.
                 Text(text = "Status: ${character.status}")
+                // Exibe a espécie do personagem.
                 Text(text = "Species: ${character.species}")
             }
 
+            // Botão para marcar/desmarcar o personagem como favorito.
             IconButton(
                 onClick = {
-                    isFavorite = !isFavorite
-                    // TODO: Salvar ou remover dos favoritos usando SharedPreferences
+                    isFavorite = !isFavorite // Alterna o estado de favorito.
+                    // TODO: Salvar ou remover dos favoritos usando SharedPreferences.
                 }
             ) {
+                // Ícone que muda dependendo do estado de favorito.
                 Icon(
                     imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
-                    contentDescription = "Favorito",
-                    tint = if (isFavorite) Color.Yellow else Color.Gray
+                    contentDescription = "Favorito", // Descrição do ícone para acessibilidade.
+                    tint = if (isFavorite) Color.Yellow else Color.Gray // Cor do ícone.
                 )
             }
         }
     }
 }
 
+// Classe de dados que representa um personagem.
 data class CharacterMock(
-    val name: String,
-    val status: String,
-    val species: String,
-    val imageUrl: String
+    val name: String, // Nome do personagem.
+    val status: String, // Status do personagem (ex.: Vivo, Morto).
+    val species: String, // Espécie do personagem (ex.: Humano, Alien).
+    val imageUrl: String // URL da imagem do personagem.
 )

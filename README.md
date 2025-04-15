@@ -36,6 +36,14 @@ Este projeto é uma base para prática em sala de aula, com foco em Android Nati
 
 ---
 
+## 🖼️ Exemplo de execução
+
+Veja abaixo uma prévia do app em execução:
+
+![Screenshot do app](images/screenshot.png)
+
+---
+
 ## 📌 O que você precisa fazer
 
 1. **Escolher uma API pública** (ex: Rick and Morty, Pokémon, Star Wars, Marvel...).
